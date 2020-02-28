@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7820AEE8A782A7BB75D4A40D /* Pods_RxSwift_Test.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD96621CD08D2F2C1AE7A247 /* Pods_RxSwift_Test.framework */; };
 		8D840DBA2408F7FA00D79B02 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D840DB92408F7FA00D79B02 /* AppDelegate.swift */; };
 		8D840DC32408F7FC00D79B02 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8D840DC22408F7FC00D79B02 /* Assets.xcassets */; };
 		8D840DC62408F7FC00D79B02 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8D840DC42408F7FC00D79B02 /* LaunchScreen.storyboard */; };
@@ -18,6 +19,9 @@
 		8D840DC22408F7FC00D79B02 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8D840DC52408F7FC00D79B02 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8D840DC72408F7FC00D79B02 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BB7F4D6D40F24876D24F6805 /* Pods-RxSwift Test.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxSwift Test.debug.xcconfig"; path = "Target Support Files/Pods-RxSwift Test/Pods-RxSwift Test.debug.xcconfig"; sourceTree = "<group>"; };
+		DD96621CD08D2F2C1AE7A247 /* Pods_RxSwift_Test.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RxSwift_Test.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F8D4440BC5DD86D16040112C /* Pods-RxSwift Test.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxSwift Test.release.xcconfig"; path = "Target Support Files/Pods-RxSwift Test/Pods-RxSwift Test.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -25,6 +29,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7820AEE8A782A7BB75D4A40D /* Pods_RxSwift_Test.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -36,6 +41,8 @@
 			children = (
 				8D840DB82408F7FA00D79B02 /* RxSwift Test */,
 				8D840DB72408F7FA00D79B02 /* Products */,
+				9B3E718AA427809243172DB1 /* Pods */,
+				9F2D43E33F61EA354451B5FD /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -58,6 +65,24 @@
 			path = "RxSwift Test";
 			sourceTree = "<group>";
 		};
+		9B3E718AA427809243172DB1 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				BB7F4D6D40F24876D24F6805 /* Pods-RxSwift Test.debug.xcconfig */,
+				F8D4440BC5DD86D16040112C /* Pods-RxSwift Test.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		9F2D43E33F61EA354451B5FD /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DD96621CD08D2F2C1AE7A247 /* Pods_RxSwift_Test.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -65,9 +90,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8D840DCA2408F7FC00D79B02 /* Build configuration list for PBXNativeTarget "RxSwift Test" */;
 			buildPhases = (
+				C57C4056017C7A0FBDBD2D70 /* [CP] Check Pods Manifest.lock */,
 				8D840DB22408F7FA00D79B02 /* Sources */,
 				8D840DB32408F7FA00D79B02 /* Frameworks */,
 				8D840DB42408F7FA00D79B02 /* Resources */,
+				FB997B9FC063C0A60A0D2E35 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -122,6 +149,55 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		C57C4056017C7A0FBDBD2D70 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-RxSwift Test-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FB997B9FC063C0A60A0D2E35 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-RxSwift Test/Pods-RxSwift Test-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
+				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-RxSwift Test/Pods-RxSwift Test-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		8D840DB22408F7FA00D79B02 /* Sources */ = {
@@ -262,6 +338,7 @@
 		};
 		8D840DCB2408F7FC00D79B02 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BB7F4D6D40F24876D24F6805 /* Pods-RxSwift Test.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -280,6 +357,7 @@
 		};
 		8D840DCC2408F7FC00D79B02 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F8D4440BC5DD86D16040112C /* Pods-RxSwift Test.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
