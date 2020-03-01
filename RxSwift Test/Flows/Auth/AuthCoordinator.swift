@@ -8,15 +8,22 @@
 
 import RxSwift
 
-final class AuthCoordinator {
+protocol AuthCoordinatorProtocol {
+    var toMainFlow: PublishSubject<Void> { get }
+}
+
+final class AuthCoordinator: Coordinator, AuthCoordinatorProtocol {
     
     // MARK: Private properties
-    private let router: UINavigationController
+    private let router: Router
     private var disposeBag = DisposeBag()
+    
+    // MARK: AuthCoordinatorProtocol property
+    var toMainFlow = PublishSubject<Void>()
     
     // MARK: Init
     //FIXME: - change to Router class
-    init(with router: UINavigationController) {
+    init(with router: Router) {
         self.router = router
     }
     
@@ -30,10 +37,9 @@ final class AuthCoordinator {
         let authModule = ModuleFactory.auth.login
         
         authModule.loggedIn
-            .subscribe(onNext: {
-                print("change screen")
-            }).disposed(by: disposeBag)
+            .bind(to: toMainFlow)
+            .disposed(by: disposeBag)
         
-        router.pushViewController(authModule as UIViewController, animated: true)
+        router.push(authModule)
     }
 }

@@ -22,7 +22,7 @@ final class Router {
     
     // MARK: Public Methods
     func push(_ module: Routable) {
-        navigationController.pushViewController(module as UIViewController,
+        navigationController.pushViewController(module,
                                                 animated: true)
     }
     

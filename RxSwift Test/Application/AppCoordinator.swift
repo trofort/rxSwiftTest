@@ -7,12 +7,12 @@
 //
 
 import RxSwift
-import RxCocoa
 
-final class AppCoordinator: Coordinator {
+final class AppCoordinator: BaseCoordinator {
     
     // MARK: Private properties
     private let router: Router
+    private let disposeBag = DisposeBag()
     
     // MARK: Init
     init(with router: Router) {
@@ -20,16 +20,24 @@ final class AppCoordinator: Coordinator {
     }
     
     // MARK: Public methods
-    func start() {
-        
+    override func start() {
+        onAuthModule()
     }
     
     // MARK: Private methods
     private func onAuthModule() {
+        let coordinator = AuthCoordinator(with: router)
         
+        coordinator.toMainFlow
+            .subscribe(onCompleted: { [weak self] in
+                self?.onMainModule()
+            }).disposed(by: disposeBag)
+        
+        addDependency(coordinator)
+        coordinator.start()
     }
     
     private func onMainModule() {
-        
+        print("Show main module")
     }
 }

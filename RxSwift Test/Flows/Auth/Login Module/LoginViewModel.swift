@@ -10,11 +10,11 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-protocol LoginViewModelProtocol where Self: UIViewController {
+protocol LoginViewModelProtocol where Self: Routable {
     var loggedIn: PublishSubject<Void> { get }
 }
 
-final class LoginViewModel: UIViewController, LoginViewProtocol, LoginViewModelProtocol {
+final class LoginViewModel: UIViewController, LoginViewProtocol, LoginViewModelProtocol, Routable {
 
     // MARK: LoginViewModelProtocol property
     var loggedIn = PublishSubject<Void>()
@@ -40,7 +40,7 @@ final class LoginViewModel: UIViewController, LoginViewProtocol, LoginViewModelP
         NetworkService.login(nickname: nickname, password: password)
             .subscribe(onSuccess: { [weak self] _ in
                 print("Login Success")
-                self?.loggedIn.onNext(())
+                self?.loggedIn.onCompleted()
                 }, onError: { _ in
                     print("Login error")
             }).disposed(by: disposeBag)
