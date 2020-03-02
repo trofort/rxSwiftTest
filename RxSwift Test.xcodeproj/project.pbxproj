@@ -81,12 +81,7 @@
 			children = (
 				8D840DDE240C1C8700D79B02 /* Application */,
 				8D840DCD2408FBDB00D79B02 /* Flows */,
-				8D840DDB24094BFA00D79B02 /* Factories */,
-				8D840DD82409446700D79B02 /* Services */,
-				8D840DE4240C1E9300D79B02 /* Router */,
-				8D840DDF240C1CB100D79B02 /* Base */,
-				8D840DEB240CF74600D79B02 /* Classes */,
-				8D840DE8240CE14B00D79B02 /* Utils */,
+				8D840DF0240D015D00D79B02 /* Helpers */,
 				8D840DC22408F7FC00D79B02 /* Assets.xcassets */,
 				8D840DC42408F7FC00D79B02 /* LaunchScreen.storyboard */,
 				8D840DC72408F7FC00D79B02 /* Info.plist */,
@@ -176,6 +171,19 @@
 			children = (
 			);
 			path = Classes;
+			sourceTree = "<group>";
+		};
+		8D840DF0240D015D00D79B02 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				8D840DDB24094BFA00D79B02 /* Factories */,
+				8D840DD82409446700D79B02 /* Services */,
+				8D840DE4240C1E9300D79B02 /* Router */,
+				8D840DDF240C1CB100D79B02 /* Base */,
+				8D840DEB240CF74600D79B02 /* Classes */,
+				8D840DE8240CE14B00D79B02 /* Utils */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		9B3E718AA427809243172DB1 /* Pods */ = {
