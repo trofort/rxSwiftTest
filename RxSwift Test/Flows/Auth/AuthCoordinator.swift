@@ -7,9 +7,10 @@
 //
 
 import RxSwift
+import RxRelay
 
 protocol AuthCoordinatorProtocol {
-    var toMainFlow: PublishSubject<Void> { get }
+    var toMainFlow: PublishRelay<Void> { get }
 }
 
 final class AuthCoordinator: Coordinator, AuthCoordinatorProtocol {
@@ -19,7 +20,7 @@ final class AuthCoordinator: Coordinator, AuthCoordinatorProtocol {
     private var disposeBag = DisposeBag()
     
     // MARK: AuthCoordinatorProtocol property
-    var toMainFlow = PublishSubject<Void>()
+    var toMainFlow = PublishRelay<Void>()
     
     // MARK: Init
     //FIXME: - change to Router class
@@ -40,6 +41,15 @@ final class AuthCoordinator: Coordinator, AuthCoordinatorProtocol {
             .bind(to: toMainFlow)
             .disposed(by: disposeBag)
         
+        authModule.moveToRegister
+            .subscribe(onNext: { [weak self] in
+                self?.onRegisterModule()
+            }).disposed(by: disposeBag)
+        
         router.push(authModule)
+    }
+    
+    private func onRegisterModule() {
+        
     }
 }

@@ -9,10 +9,10 @@
 import UIKit
 import RxSwift
 import RxCocoa
-
 protocol LoginViewProtocol {
     func setup()
-    var login: PublishSubject<(nickname: String?, password: String?)> { get }
+    var loginTapped: PublishRelay<(nickname: String?, password: String?)> { get }
+    var registerTapped: PublishRelay<Void> { get }
 }
 
 final class LoginView: UIView, LoginViewProtocol {
@@ -28,7 +28,8 @@ final class LoginView: UIView, LoginViewProtocol {
     private var disposeBag = DisposeBag()
     
     // MARK: LoginViewProtocol property
-    var login = PublishSubject<(nickname: String?, password: String?)>()
+    var loginTapped = PublishRelay<(nickname: String?, password: String?)>()
+    var registerTapped = PublishRelay<Void>()
     
     // MARK: setup method
     func setup() {
@@ -51,8 +52,8 @@ final class LoginView: UIView, LoginViewProtocol {
         loginButton.rx
         .tap
             .subscribe(onNext: { [weak self] in
-                self?.login.onNext((nickname: self?.nicknameTextField.text,
-                                    password: self?.passwordTextField.text))
+                self?.loginTapped.accept((nickname: self?.nicknameTextField.text,
+                                          password: self?.passwordTextField.text))
             })
         .disposed(by: disposeBag)
     }
@@ -63,5 +64,6 @@ final class LoginView: UIView, LoginViewProtocol {
         registerButton.layer.borderWidth = 1.0
         registerButton.layer.borderColor = UIColor.appPurple.cgColor
         registerButton.setTitleColor(.appPurple, for: .normal)
+        registerButton.rx.tap.bind(to: registerTapped).disposed(by: disposeBag)
     }
 }

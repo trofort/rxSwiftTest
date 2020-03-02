@@ -11,16 +11,18 @@ import RxSwift
 import RxCocoa
 
 protocol LoginViewModelProtocol where Self: Routable {
-    var loggedIn: PublishSubject<Void> { get }
+    var loggedIn: PublishRelay<Void> { get }
+    var moveToRegister: PublishRelay<Void> { get }
 }
 
 final class LoginViewModel: UIViewController, LoginViewModelProtocol, Routable, ErrorSwowing {
 
     // MARK: LoginViewModelProtocol property
-    var loggedIn = PublishSubject<Void>()
+    var loggedIn = PublishRelay<Void>()
+    var moveToRegister = PublishRelay<Void>()
     
     // MARK: Private properties
-    private let errorCatcher = PublishSubject<Error>()
+    private let errorCatcher = PublishRelay<Error>()
     private let disposeBag = DisposeBag()
     
     // MARK: Life Cycle
@@ -43,29 +45,30 @@ final class LoginViewModel: UIViewController, LoginViewModelProtocol, Routable, 
         guard let view = view as? LoginViewProtocol else { return }
         view.setup()
         
-        view.login.subscribe(onNext: { [weak self] nickname, password in
+        view.loginTapped.subscribe(onNext: { [weak self] nickname, password in
             self?.login(nickname: nickname, password: password)
             }).disposed(by: disposeBag)
+        view.registerTapped.bind(to: moveToRegister).disposed(by: disposeBag)
     }
     
     // MARK: - Private methods
     private func login(nickname: String?, password: String?) {
         guard let nickname = nickname, nickname != "" else {
-            errorCatcher.onNext(AuthError.emptyNicknameField)
+            errorCatcher.accept(AuthError.emptyNicknameField)
             return
         }
         
         guard let password = password, password != "" else {
-            errorCatcher.onNext(AuthError.emptyPasswordField)
+            errorCatcher.accept(AuthError.emptyPasswordField)
             return
         }
         
         NetworkService.login(nickname: nickname, password: password)
             .subscribe(onSuccess: { [weak self] _ in
                 print("Login Success")
-                self?.loggedIn.onCompleted()
+                self?.loggedIn.accept(())
                 }, onError: { [weak self] error in
-                    self?.errorCatcher.onNext(error)
+                    self?.errorCatcher.accept(error)
             }).disposed(by: disposeBag)
     }
 }

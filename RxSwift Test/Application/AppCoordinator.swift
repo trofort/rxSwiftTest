@@ -29,7 +29,7 @@ final class AppCoordinator: BaseCoordinator {
         let coordinator = AuthCoordinator(with: router)
         
         coordinator.toMainFlow
-            .subscribe(onCompleted: { [weak self] in
+            .subscribe(onNext: { [weak self] in
                 self?.onMainModule()
             }).disposed(by: disposeBag)
         
