@@ -14,35 +14,58 @@ protocol LoginViewModelProtocol where Self: Routable {
     var loggedIn: PublishSubject<Void> { get }
 }
 
-final class LoginViewModel: UIViewController, LoginViewProtocol, LoginViewModelProtocol, Routable {
+final class LoginViewModel: UIViewController, LoginViewModelProtocol, Routable {
 
     // MARK: LoginViewModelProtocol property
     var loggedIn = PublishSubject<Void>()
     
     // MARK: Private properties
+    private let errorCatcher = PublishSubject<Error>()
     private let disposeBag = DisposeBag()
     
     // MARK: Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setup()
+    }
+    
+    // MARK: Setup methods
+    private func setup() {
+        errorCatcher.subscribe(onNext: { [weak self] error in
+            print(error.localizedDescription)
+            }).disposed(by: disposeBag)
+        
         setupView()
     }
     
-    // MARK: SetupView
     private func setupView() {
-        (view as? LoginView)?.setup(with: self)
+        guard let view = view as? LoginViewProtocol else { return }
+        view.setup()
+        
+        view.login.subscribe(onNext: { [weak self] nickname, password in
+            self?.login(nickname: nickname, password: password)
+            }).disposed(by: disposeBag)
     }
     
-    // MARK: - LoginViewProtocol methods
-    func login(nickname: String, password: String) {
-        print("LoggIn Start")
+    // MARK: - Private methods
+    private func login(nickname: String?, password: String?) {
+        guard let nickname = nickname, nickname != "" else {
+            errorCatcher.onNext(AuthError.emptyNicknameField)
+            return
+        }
+        
+        guard let password = password, nickname != "" else {
+            errorCatcher.onNext(AuthError.emptyPasswordField)
+            return
+        }
+        
         NetworkService.login(nickname: nickname, password: password)
             .subscribe(onSuccess: { [weak self] _ in
                 print("Login Success")
                 self?.loggedIn.onCompleted()
-                }, onError: { _ in
-                    print("Login error")
+                }, onError: { [weak self] error in
+                    self?.errorCatcher.onNext(error)
             }).disposed(by: disposeBag)
     }
 }
