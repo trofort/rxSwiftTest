@@ -14,7 +14,7 @@ protocol LoginViewModelProtocol where Self: Routable {
     var loggedIn: PublishSubject<Void> { get }
 }
 
-final class LoginViewModel: UIViewController, LoginViewModelProtocol, Routable {
+final class LoginViewModel: UIViewController, LoginViewModelProtocol, Routable, ErrorSwowing {
 
     // MARK: LoginViewModelProtocol property
     var loggedIn = PublishSubject<Void>()
@@ -33,7 +33,7 @@ final class LoginViewModel: UIViewController, LoginViewModelProtocol, Routable {
     // MARK: Setup methods
     private func setup() {
         errorCatcher.subscribe(onNext: { [weak self] error in
-            print(error.localizedDescription)
+            self?.show(error)
             }).disposed(by: disposeBag)
         
         setupView()
@@ -55,7 +55,7 @@ final class LoginViewModel: UIViewController, LoginViewModelProtocol, Routable {
             return
         }
         
-        guard let password = password, nickname != "" else {
+        guard let password = password, password != "" else {
             errorCatcher.onNext(AuthError.emptyPasswordField)
             return
         }

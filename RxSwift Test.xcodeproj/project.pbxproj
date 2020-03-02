@@ -22,6 +22,7 @@
 		8D840DE6240C1EA700D79B02 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D840DE5240C1EA700D79B02 /* Router.swift */; };
 		8D840DEA240CE16D00D79B02 /* UIColor+AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D840DE9240CE16D00D79B02 /* UIColor+AppColors.swift */; };
 		8D840DEF240CFE6700D79B02 /* AuthErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D840DEE240CFE6700D79B02 /* AuthErrors.swift */; };
+		8D840DF3240D01DC00D79B02 /* ErrorSwowing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D840DF2240D01DC00D79B02 /* ErrorSwowing.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +42,7 @@
 		8D840DE5240C1EA700D79B02 /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		8D840DE9240CE16D00D79B02 /* UIColor+AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+AppColors.swift"; sourceTree = "<group>"; };
 		8D840DEE240CFE6700D79B02 /* AuthErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthErrors.swift; sourceTree = "<group>"; };
+		8D840DF2240D01DC00D79B02 /* ErrorSwowing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorSwowing.swift; sourceTree = "<group>"; };
 		BB7F4D6D40F24876D24F6805 /* Pods-RxSwift Test.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxSwift Test.debug.xcconfig"; path = "Target Support Files/Pods-RxSwift Test/Pods-RxSwift Test.debug.xcconfig"; sourceTree = "<group>"; };
 		DD96621CD08D2F2C1AE7A247 /* Pods_RxSwift_Test.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RxSwift_Test.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F8D4440BC5DD86D16040112C /* Pods-RxSwift Test.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxSwift Test.release.xcconfig"; path = "Target Support Files/Pods-RxSwift Test/Pods-RxSwift Test.release.xcconfig"; sourceTree = "<group>"; };
@@ -176,6 +178,7 @@
 		8D840DF0240D015D00D79B02 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				8D840DF1240D019500D79B02 /* Protocols */,
 				8D840DDB24094BFA00D79B02 /* Factories */,
 				8D840DD82409446700D79B02 /* Services */,
 				8D840DE4240C1E9300D79B02 /* Router */,
@@ -184,6 +187,14 @@
 				8D840DE8240CE14B00D79B02 /* Utils */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		8D840DF1240D019500D79B02 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				8D840DF2240D01DC00D79B02 /* ErrorSwowing.swift */,
+			);
+			path = Protocols;
 			sourceTree = "<group>";
 		};
 		9B3E718AA427809243172DB1 /* Pods */ = {
@@ -336,6 +347,7 @@
 				8D840DE3240C1E6100D79B02 /* AppCoordinator.swift in Sources */,
 				8D840DEF240CFE6700D79B02 /* AuthErrors.swift in Sources */,
 				8D840DE1240C1CCB00D79B02 /* BaseCoordinator.swift in Sources */,
+				8D840DF3240D01DC00D79B02 /* ErrorSwowing.swift in Sources */,
 				8D840DD72409421A00D79B02 /* LoginView.swift in Sources */,
 				8D840DD3240926BD00D79B02 /* NetworkService.swift in Sources */,
 			);
