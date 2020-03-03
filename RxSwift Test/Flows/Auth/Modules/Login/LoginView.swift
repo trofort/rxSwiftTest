@@ -10,7 +10,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 protocol LoginViewProtocol {
-    func setup()
+    func setup(with nickname: String?)
     var loginTapped: PublishRelay<(nickname: String?, password: String?)> { get }
     var registerTapped: PublishRelay<Void> { get }
 }
@@ -32,10 +32,11 @@ final class LoginView: UIView, LoginViewProtocol {
     var registerTapped = PublishRelay<Void>()
     
     // MARK: setup method
-    func setup() {
+    func setup(with nickname: String?) {
         setupCreditsView()
         setupLoginButton()
         setupRegisterButton()
+        setupNicknameTextField(with: nickname)
     }
     
     // MARK: Private methods
@@ -65,5 +66,9 @@ final class LoginView: UIView, LoginViewProtocol {
         registerButton.layer.borderColor = UIColor.appPurple.cgColor
         registerButton.setTitleColor(.appPurple, for: .normal)
         registerButton.rx.tap.bind(to: registerTapped).disposed(by: disposeBag)
+    }
+    
+    private func setupNicknameTextField(with nickName: String?) {
+        nicknameTextField.text = nickName ?? ""
     }
 }
