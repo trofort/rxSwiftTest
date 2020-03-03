@@ -14,4 +14,8 @@ final class AuthModuleFactory {
     var login: LoginViewModelProtocol {
         return LoginViewModel(nibName: "LoginView", bundle: nil)
     }
+    
+    var register: RegisterViewModelProtocol {
+        return RegisterViewModel(nibName: "RegisterView", bundle: nil)
+    }
 }

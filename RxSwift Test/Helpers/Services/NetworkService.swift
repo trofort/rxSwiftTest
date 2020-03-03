@@ -11,11 +11,19 @@ import RxCocoa
 
 final class NetworkService {
     
-    class func login(nickname: String, password: String) -> Single<Void> {
+    class func login(nickname: String, password: String) -> Observable<Void> {
         return Single<Void>.create { single in
-            print("Answer responsed")
+            print("Logged in with \(nickname)")
             single(.success(()))
             return Disposables.create()
-        }
+        }.asObservable()
+    }
+    
+    class func register(nickname: String, password: String) -> Observable<Void> {
+        return Single<Void>.create { single in
+            print("Registered with \(nickname)")
+            single(.success(()))
+            return Disposables.create()
+        }.asObservable()
     }
 }

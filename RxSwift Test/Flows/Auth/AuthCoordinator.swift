@@ -50,6 +50,13 @@ final class AuthCoordinator: Coordinator, AuthCoordinatorProtocol {
     }
     
     private func onRegisterModule() {
+        let registerModule = ModuleFactory.auth.register
         
+        registerModule.registered
+            .subscribe(onNext: { [weak self] _ in
+                self?.router.pop()
+            }).disposed(by: disposeBag)
+        
+        router.push(registerModule)
     }
 }

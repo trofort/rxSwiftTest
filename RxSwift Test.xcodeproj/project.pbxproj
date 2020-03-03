@@ -23,6 +23,11 @@
 		8D840DEA240CE16D00D79B02 /* UIColor+AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D840DE9240CE16D00D79B02 /* UIColor+AppColors.swift */; };
 		8D840DEF240CFE6700D79B02 /* AuthErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D840DEE240CFE6700D79B02 /* AuthErrors.swift */; };
 		8D840DF3240D01DC00D79B02 /* ErrorSwowing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D840DF2240D01DC00D79B02 /* ErrorSwowing.swift */; };
+		8DCE33CD240E324E0009A7D2 /* RegisterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DCE33CC240E324E0009A7D2 /* RegisterViewModel.swift */; };
+		8DCE33D1240E343C0009A7D2 /* BaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DCE33D0240E343C0009A7D2 /* BaseViewModel.swift */; };
+		8DCE33D3240E36CF0009A7D2 /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DCE33D2240E36CF0009A7D2 /* RegisterView.swift */; };
+		8DCE33D6240E3D150009A7D2 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DCE33D5240E3D150009A7D2 /* AuthService.swift */; };
+		8DCE33D8240E4CF70009A7D2 /* RegisterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8DCE33D7240E4CF70009A7D2 /* RegisterView.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +48,11 @@
 		8D840DE9240CE16D00D79B02 /* UIColor+AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+AppColors.swift"; sourceTree = "<group>"; };
 		8D840DEE240CFE6700D79B02 /* AuthErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthErrors.swift; sourceTree = "<group>"; };
 		8D840DF2240D01DC00D79B02 /* ErrorSwowing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorSwowing.swift; sourceTree = "<group>"; };
+		8DCE33CC240E324E0009A7D2 /* RegisterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewModel.swift; sourceTree = "<group>"; };
+		8DCE33D0240E343C0009A7D2 /* BaseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewModel.swift; sourceTree = "<group>"; };
+		8DCE33D2240E36CF0009A7D2 /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
+		8DCE33D5240E3D150009A7D2 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		8DCE33D7240E4CF70009A7D2 /* RegisterView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RegisterView.xib; sourceTree = "<group>"; };
 		BB7F4D6D40F24876D24F6805 /* Pods-RxSwift Test.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxSwift Test.debug.xcconfig"; path = "Target Support Files/Pods-RxSwift Test/Pods-RxSwift Test.debug.xcconfig"; sourceTree = "<group>"; };
 		DD96621CD08D2F2C1AE7A247 /* Pods_RxSwift_Test.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RxSwift_Test.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F8D4440BC5DD86D16040112C /* Pods-RxSwift Test.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxSwift Test.release.xcconfig"; path = "Target Support Files/Pods-RxSwift Test/Pods-RxSwift Test.release.xcconfig"; sourceTree = "<group>"; };
@@ -104,19 +114,20 @@
 			children = (
 				8D840DD924094B3100D79B02 /* AuthCoordinator.swift */,
 				8D840DEE240CFE6700D79B02 /* AuthErrors.swift */,
-				8D840DCF2408FBEE00D79B02 /* Login Module */,
+				8DCE33CA240E32180009A7D2 /* Modules */,
+				8DCE33D4240E3CDE0009A7D2 /* Services */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
 		};
-		8D840DCF2408FBEE00D79B02 /* Login Module */ = {
+		8D840DCF2408FBEE00D79B02 /* Login */ = {
 			isa = PBXGroup;
 			children = (
 				8D840DD02408FC2900D79B02 /* LoginViewModel.swift */,
 				8D840DD424092B8800D79B02 /* LoginView.xib */,
 				8D840DD62409421A00D79B02 /* LoginView.swift */,
 			);
-			path = "Login Module";
+			path = Login;
 			sourceTree = "<group>";
 		};
 		8D840DD82409446700D79B02 /* Services */ = {
@@ -148,6 +159,7 @@
 			isa = PBXGroup;
 			children = (
 				8D840DE0240C1CCB00D79B02 /* BaseCoordinator.swift */,
+				8DCE33D0240E343C0009A7D2 /* BaseViewModel.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -195,6 +207,33 @@
 				8D840DF2240D01DC00D79B02 /* ErrorSwowing.swift */,
 			);
 			path = Protocols;
+			sourceTree = "<group>";
+		};
+		8DCE33CA240E32180009A7D2 /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				8DCE33CB240E32360009A7D2 /* Register */,
+				8D840DCF2408FBEE00D79B02 /* Login */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+		8DCE33CB240E32360009A7D2 /* Register */ = {
+			isa = PBXGroup;
+			children = (
+				8DCE33CC240E324E0009A7D2 /* RegisterViewModel.swift */,
+				8DCE33D2240E36CF0009A7D2 /* RegisterView.swift */,
+				8DCE33D7240E4CF70009A7D2 /* RegisterView.xib */,
+			);
+			path = Register;
+			sourceTree = "<group>";
+		};
+		8DCE33D4240E3CDE0009A7D2 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				8DCE33D5240E3D150009A7D2 /* AuthService.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 		9B3E718AA427809243172DB1 /* Pods */ = {
@@ -275,6 +314,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D840DD524092B8800D79B02 /* LoginView.xib in Resources */,
+				8DCE33D8240E4CF70009A7D2 /* RegisterView.xib in Resources */,
 				8D840DC62408F7FC00D79B02 /* LaunchScreen.storyboard in Resources */,
 				8D840DC32408F7FC00D79B02 /* Assets.xcassets in Resources */,
 			);
@@ -341,15 +381,19 @@
 				8D840DDA24094B3100D79B02 /* AuthCoordinator.swift in Sources */,
 				8D840DEA240CE16D00D79B02 /* UIColor+AppColors.swift in Sources */,
 				8D840DD12408FC2900D79B02 /* LoginViewModel.swift in Sources */,
+				8DCE33D1240E343C0009A7D2 /* BaseViewModel.swift in Sources */,
 				8D840DDD24094C3500D79B02 /* ModuleFactory.swift in Sources */,
 				8D840DBA2408F7FA00D79B02 /* AppDelegate.swift in Sources */,
+				8DCE33D3240E36CF0009A7D2 /* RegisterView.swift in Sources */,
 				8D840DE6240C1EA700D79B02 /* Router.swift in Sources */,
 				8D840DE3240C1E6100D79B02 /* AppCoordinator.swift in Sources */,
 				8D840DEF240CFE6700D79B02 /* AuthErrors.swift in Sources */,
+				8DCE33CD240E324E0009A7D2 /* RegisterViewModel.swift in Sources */,
 				8D840DE1240C1CCB00D79B02 /* BaseCoordinator.swift in Sources */,
 				8D840DF3240D01DC00D79B02 /* ErrorSwowing.swift in Sources */,
 				8D840DD72409421A00D79B02 /* LoginView.swift in Sources */,
 				8D840DD3240926BD00D79B02 /* NetworkService.swift in Sources */,
+				8DCE33D6240E3D150009A7D2 /* AuthService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
