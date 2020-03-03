@@ -33,7 +33,7 @@ final class LoginViewModel: BaseViewModel, LoginViewModelProtocol, Routable {
         nicknameChanged?.subscribe(onNext: { [weak self] in self?.setupView(with: $0) }).disposed(by: disposeBag)
     }
     
-    override internal func setupView() {
+    override func setupView() {
         guard let view = view as? LoginViewProtocol else { return }
         setupView(with: nil)
         

@@ -23,7 +23,7 @@ final class RegisterViewModel: BaseViewModel, RegisterViewModelProtocol, Routabl
     private lazy var authService = AuthService()
     
     // MARK: Setup methods
-    override internal func setupView() {
+    override func setupView() {
         guard let view = view as? RegisterViewProtocol else { return }
         
         view.setup()

@@ -24,7 +24,7 @@ class BaseViewModel: UIViewController, ErrorSwowing {
     }
     
     // MARK: Setup methods
-    internal func setup() {
+    func setup() {
         errorCatcher.subscribe(onNext: { [weak self] error in
             self?.show(error)
         }).disposed(by: disposeBag)
@@ -32,7 +32,7 @@ class BaseViewModel: UIViewController, ErrorSwowing {
         setupView()
     }
     
-    internal func setupView() {
+    func setupView() {
         //should be overriden
     }
 }
