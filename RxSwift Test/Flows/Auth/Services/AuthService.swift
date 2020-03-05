@@ -8,82 +8,92 @@
 
 import Foundation
 import RxSwift
+import RxRelay
 
 final class AuthService {
+    
+    // MARK: Private propeties
+    private let disposeBag = DisposeBag()
+    
+    private var registerTask = PublishRelay<String>()
+    private var loginTask = PublishRelay<Void>()
+    private var errorCatcher = PublishRelay<Error>()
+    
+    // MARK: Public observers
+    var registerCompleted: Observable<String> {
+        return registerTask.asObservable()
+    }
+    
+    var loggedIn: Observable<Void> {
+        return loginTask.asObservable()
+    }
+    
+    var errorCatched: Observable<Error> {
+        return errorCatcher.asObservable()
+    }
+    
     // MARK Consts
     private enum Const {
         static let minPasswordLength = 6
     }
     
     // MARK: Public methods
-    func login(nickname: String?, password: String?) -> Observable<Void> {
-        let credits = checkCredits(nickname: nickname, password: password)
-        return Single<Void>.create { single in
-            
-            if let error = credits.error {
-                single(.error(error))
-                return Disposables.create()
-            }
-            
-            let loginTask = NetworkService.login(nickname: credits.nickname,
-                                                 password: credits.password)
-                                .subscribe(onError: { single(.error($0)) },
-                                           onCompleted: { single(.success(())) })
-            return Disposables.create { loginTask.dispose() }
-        }.asObservable()
+    func login(nickname: String?, password: String?) {
+        guard let credits = checkCredits(nickname: nickname, password: password) else { return }
+        
+        NetworkService.login(nickname: credits.nickname, password: credits.password)
+            .subscribe(onError: { [weak self] in self?.errorCatcher.accept($0) },
+                       onCompleted: { [weak self] in self?.loginTask.accept(()) })
+            .disposed(by: disposeBag)
     }
     
-    func register(nickname: String?, password: String?, confirmPassword: String?) -> Observable<String> {
-        let credits = checkRegisterCredits(nickname: nickname, password: password, confirmPassword: confirmPassword)
-        return Single<String>.create { single in
-
-            if let error = credits.error {
-                single(.error(error))
-                return Disposables.create()
-            }
-            
-            let registerTask = NetworkService.register(nickname: credits.nickname,
-                                                       password: credits.password)
-                                    .subscribe(onError: { single(.error($0)) },
-                                               onCompleted: { single(.success(credits.nickname)) })
-            return Disposables.create { registerTask.dispose() }
-        }.asObservable()
+    func register(nickname: String?, password: String?, confirmPassword: String?) {
+        guard let credits = checkRegisterCredits(nickname: nickname,
+                                                 password: password,
+                                                 confirmPassword: confirmPassword) else { return }
+        NetworkService.register(nickname: credits.nickname, password: credits.password)
+            .subscribe(onError: { [weak self] in self?.errorCatcher.accept($0) },
+                       onCompleted: { [weak self] in self?.registerTask.accept(credits.nickname) })
+            .disposed(by: disposeBag)
     }
     
     // MARK: Private methods
-    private typealias CreditsType = (nickname: String, password: String, error: Error?)
+    private typealias CreditsType = (nickname: String, password: String)?
     
     private func checkCredits(nickname: String?, password: String?) -> CreditsType {
         
         guard let nickname = nickname, nickname != "" else {
-            return (nickname: "", password: "", error: AuthError.emptyNicknameField)
+            errorCatcher.accept(AuthError.emptyNicknameField)
+            return nil
         }
         
         guard let password = password, password != "" else {
-            return (nickname: "", password: "", error: AuthError.emptyPasswordField)
+            errorCatcher.accept(AuthError.emptyPasswordField)
+            return nil
         }
         
-        return (nickname: nickname, password: password, error: nil)
+        return (nickname: nickname, password: password)
     }
     
     private func checkRegisterCredits(nickname: String?, password: String?, confirmPassword: String?) -> CreditsType {
         
-        let credits = checkCredits(nickname: nickname, password: password)
-        
-        if let error = credits.error {
-            return (nickname: "", password: "", error: error)
+        guard let credits = checkCredits(nickname: nickname, password: password) else {
+            return nil
         }
         
         guard let confirmPassword = confirmPassword, confirmPassword != "" else {
-            return (nickname: "", password: "", error: AuthError.emptyConfirmPasswordField)
+            errorCatcher.accept(AuthError.emptyConfirmPasswordField)
+            return nil
         }
         
         if credits.password != confirmPassword {
-            return (nickname: "", password: "", error: AuthError.differentPasswords)
+            errorCatcher.accept(AuthError.differentPasswords)
+            return nil
         }
         
         if credits.password.count < Const.minPasswordLength {
-            return (nickname: "", password: "", error: AuthError.shortPassword(minLength: Const.minPasswordLength))
+            errorCatcher.accept(AuthError.shortPassword(minLength: Const.minPasswordLength))
+            return nil
         }
         
         return credits

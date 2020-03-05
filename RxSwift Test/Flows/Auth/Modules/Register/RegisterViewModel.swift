@@ -18,20 +18,25 @@ final class RegisterViewModel: BaseViewModel, Routable {
     
     // MARK: Private properties
     private lazy var authService = AuthService()
-    private let registrationCompleted = PublishRelay<String>()
+    
+    private var registerView: RegisterViewProtocol {
+        return view as! RegisterViewProtocol
+    }
     
     // MARK: Setup methods
+    override func setup() {
+        super.setup()
+        
+        authService.errorCatched.bind(to: errorCatcher).disposed(by: disposeBag)
+    }
+    
     override func setupView() {
-        guard let view = view as? RegisterViewProtocol else { return }
+        registerView.setup()
         
-        view.setup()
-        
-        view.registerTapped.subscribe(onNext: { [weak self] nickname, password, confirmPassword in
-            guard let self = self else { return }
-            self.authService.register(nickname: nickname, password: password, confirmPassword: confirmPassword)
-                .subscribe(onNext: { [weak self] in self?.registrationCompleted.accept($0) },
-                           onError: { [weak self] in self?.errorCatcher.accept($0) })
-                .disposed(by: self.disposeBag)
+        registerView.registerTapped.subscribe(onNext: { [weak self] in
+            self?.authService.register(nickname: $0,
+                                       password: $1,
+                                       confirmPassword: $2)
         }).disposed(by: disposeBag)
     }
 }
@@ -39,7 +44,7 @@ final class RegisterViewModel: BaseViewModel, Routable {
 // MARK: - RegisterViewModelProtocol
 extension RegisterViewModel: RegisterViewModelProtocol {
     var registered: Observable<String>? {
-        return registrationCompleted.asObservable()
+        return authService.registerCompleted
     }
 }
 

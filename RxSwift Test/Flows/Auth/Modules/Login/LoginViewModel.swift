@@ -23,44 +23,38 @@ final class LoginViewModel: BaseViewModel, Routable {
     
     // MARK: Private properties
     private lazy var authService = AuthService()
-    private var loggedInSuccessfull = PublishRelay<Void>()
-    private var registerTapped = PublishRelay<Void>()
+    
+    private var loginView: LoginViewProtocol {
+        return view as! LoginViewProtocol
+    }
     
     // MARK: Setup methods
     override func setup() {
         super.setup()
         
         updatedNickname?.subscribe(onNext: { [weak self] in self?.setupView(with: $0) }).disposed(by: disposeBag)
+        authService.errorCatched.bind(to: errorCatcher).disposed(by: disposeBag)
     }
     
     override func setupView() {
-        guard let view = view as? LoginViewProtocol else { return }
         setupView(with: nil)
         
-        view.loginTapped.subscribe(onNext: { [weak self] nickname, password in
-            guard let self = self else { return }
-            self.authService
-                .login(nickname: nickname, password: password)
-                .subscribe(onError: { [weak self] in self?.errorCatcher.accept($0) },
-                           onCompleted: { [weak self] in self?.loggedInSuccessfull.accept(()) })
-                .disposed(by: self.disposeBag)
-            }).disposed(by: disposeBag)
-        view.registerTapped.bind(to: registerTapped).disposed(by: disposeBag)
+        loginView.loginTapped.subscribe(onNext: { [weak self] in self?.authService.login(nickname: $0, password: $1) }).disposed(by: disposeBag)
     }
     
     private func setupView(with nickname: String?) {
-        (view as? LoginViewProtocol)?.setup(with: nickname)
+        loginView.setup(with: nickname)
     }
 }
 
 // MARK: - LoginViewModelProtocol
 extension LoginViewModel: LoginViewModelProtocol {
     var moveFromLogin: Observable<Void> {
-        return loggedInSuccessfull.asObservable()
+        return authService.loggedIn
     }
     
     var moveToRegister: Observable<Void> {
-        return registerTapped.asObservable()
+        return loginView.registerTapped
     }
     
 }
