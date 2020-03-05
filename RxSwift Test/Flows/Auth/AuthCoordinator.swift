@@ -18,7 +18,7 @@ final class AuthCoordinator: Coordinator, AuthCoordinatorProtocol {
     // MARK: Private properties
     private let router: Router
     private var disposeBag = DisposeBag()
-    private let updateNickname = PublishRelay<String>()
+    private let updateNickname = PublishRelay<String?>()
     
     // MARK: AuthCoordinatorProtocol property
     var toMainFlow = PublishRelay<Void>()
@@ -47,7 +47,7 @@ final class AuthCoordinator: Coordinator, AuthCoordinatorProtocol {
                 self?.onRegisterModule()
             }).disposed(by: disposeBag)
         
-        authModule.updatedNickname = updateNickname.asObservable()
+        updateNickname.bind(to: authModule.updatedNickname).disposed(by: disposeBag)
         
         router.push(authModule)
     }

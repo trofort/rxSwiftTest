@@ -11,9 +11,10 @@ import RxSwift
 import RxCocoa
 
 protocol LoginViewProtocol {
-    func setup(with nickname: String?)
+    func setup()
     var loginTapped: Observable<(nickname: String?, password: String?)> { get }
     var registerTapped: Observable<Void> { get }
+    var nicknameTextFieldText: AnyObserver<String?> { get }
 }
 
 final class LoginView: UIView {
@@ -25,12 +26,15 @@ final class LoginView: UIView {
     @IBOutlet private weak var nicknameTextField: UITextField!
     @IBOutlet private weak var passwordTextField: UITextField!
     
+    var nicknameTextFieldText: AnyObserver<String?> {
+        return nicknameTextField.rx.text.asObserver()
+    }
+    
     // MARK: setup method
-    func setup(with nickname: String?) {
+    func setup() {
         setupCreditsView()
         setupLoginButton()
         setupRegisterButton()
-        setupNicknameTextField(with: nickname)
     }
     
     // MARK: Private methods
@@ -53,9 +57,6 @@ final class LoginView: UIView {
         registerButton.setTitleColor(.appPurple, for: .normal)
     }
     
-    private func setupNicknameTextField(with nickName: String?) {
-        nicknameTextField.text = nickName ?? ""
-    }
 }
 
 // MARK: - LoginViewProtocol

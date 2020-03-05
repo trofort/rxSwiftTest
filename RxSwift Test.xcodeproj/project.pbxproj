@@ -212,8 +212,8 @@
 		8DCE33CA240E32180009A7D2 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
-				8DCE33CB240E32360009A7D2 /* Register */,
 				8D840DCF2408FBEE00D79B02 /* Login */,
+				8DCE33CB240E32360009A7D2 /* Register */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
