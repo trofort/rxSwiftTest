@@ -9,13 +9,14 @@
 import UIKit
 import RxSwift
 import RxCocoa
+
 protocol LoginViewProtocol {
     func setup(with nickname: String?)
-    var loginTapped: PublishRelay<(nickname: String?, password: String?)> { get }
-    var registerTapped: PublishRelay<Void> { get }
+    var loginTapped: Observable<(nickname: String?, password: String?)> { get }
+    var registerTapped: Observable<Void> { get }
 }
 
-final class LoginView: UIView, LoginViewProtocol {
+final class LoginView: UIView {
     
     // MARK: Outlets
     @IBOutlet private weak var creditsView: UIView!
@@ -23,13 +24,6 @@ final class LoginView: UIView, LoginViewProtocol {
     @IBOutlet private weak var registerButton: UIButton!
     @IBOutlet private weak var nicknameTextField: UITextField!
     @IBOutlet private weak var passwordTextField: UITextField!
-    
-    // MARK: private properties
-    private var disposeBag = DisposeBag()
-    
-    // MARK: LoginViewProtocol property
-    var loginTapped = PublishRelay<(nickname: String?, password: String?)>()
-    var registerTapped = PublishRelay<Void>()
     
     // MARK: setup method
     func setup(with nickname: String?) {
@@ -49,14 +43,6 @@ final class LoginView: UIView, LoginViewProtocol {
         loginButton.backgroundColor = .appPurple
         loginButton.layer.cornerRadius = 5.0
         loginButton.setTitleColor(.appWhite, for: .normal)
-        
-        loginButton.rx
-        .tap
-            .subscribe(onNext: { [weak self] in
-                self?.loginTapped.accept((nickname: self?.nicknameTextField.text,
-                                          password: self?.passwordTextField.text))
-            })
-        .disposed(by: disposeBag)
     }
     
     private func setupRegisterButton() {
@@ -65,10 +51,24 @@ final class LoginView: UIView, LoginViewProtocol {
         registerButton.layer.borderWidth = 1.0
         registerButton.layer.borderColor = UIColor.appPurple.cgColor
         registerButton.setTitleColor(.appPurple, for: .normal)
-        registerButton.rx.tap.bind(to: registerTapped).disposed(by: disposeBag)
     }
     
     private func setupNicknameTextField(with nickName: String?) {
         nicknameTextField.text = nickName ?? ""
+    }
+}
+
+// MARK: - LoginViewProtocol
+extension LoginView: LoginViewProtocol {
+    var loginTapped: Observable<(nickname: String?, password: String?)> {
+        return loginButton.rx
+                .tap
+                .map({ [weak self] in (nickname: self?.nicknameTextField.text,
+                                       password: self?.passwordTextField.text) })
+                .asObservable()
+    }
+    
+    var registerTapped: Observable<Void> {
+        return registerButton.rx.tap.asObservable()
     }
 }

@@ -12,10 +12,10 @@ import RxCocoa
 
 protocol RegisterViewProtocol {
     func setup()
-    var registerTapped: PublishRelay<(nickname: String?, password: String?, confirmPassword: String?)> { get }
+    var registerTapped: Observable<(nickname: String?, password: String?, confirmPassword: String?)> { get }
 }
 
-final class RegisterView: UIView, RegisterViewProtocol {
+final class RegisterView: UIView {
     
     //MARK: Outlets
     @IBOutlet private weak var backgroundView: UIView!
@@ -23,12 +23,6 @@ final class RegisterView: UIView, RegisterViewProtocol {
     @IBOutlet private weak var nicknameTextField: UITextField!
     @IBOutlet private weak var passwordTextField: UITextField!
     @IBOutlet private weak var confirmPasswordTextField: UITextField!
-    
-    // MARK: RegisterViewProtocol property
-    var registerTapped = PublishRelay<(nickname: String?, password: String?, confirmPassword: String?)>()
-    
-    // MARK: Private properties
-    private let disposeBag = DisposeBag()
     
     // MARK: Setup methods
     func setup() {
@@ -45,12 +39,17 @@ final class RegisterView: UIView, RegisterViewProtocol {
         registerButton.backgroundColor = .appPurple
         registerButton.setTitleColor(.appWhite, for: .normal)
         registerButton.layer.cornerRadius = 5.0
-        registerButton.rx
-            .tap
-            .subscribe(onNext: { [weak self] in
-                self?.registerTapped.accept((nickname: self?.nicknameTextField.text,
-                                             password: self?.passwordTextField.text,
-                                             confirmPassword: self?.confirmPasswordTextField.text))
-            }).disposed(by: disposeBag)
+    }
+}
+
+// MARK: - RegisterViewProtocol
+extension RegisterView: RegisterViewProtocol {
+    var registerTapped: Observable<(nickname: String?, password: String?, confirmPassword: String?)> {
+        return registerButton.rx
+        .tap
+        .map({ [weak self] in (nickname: self?.nicknameTextField.text,
+                               password: self?.passwordTextField.text,
+                               confirmPassword: self?.confirmPasswordTextField.text) })
+        .asObservable()
     }
 }

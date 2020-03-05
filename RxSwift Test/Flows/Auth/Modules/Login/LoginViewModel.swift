@@ -11,26 +11,26 @@ import RxSwift
 import RxCocoa
 
 protocol LoginViewModelProtocol where Self: Routable {
-    var loggedIn: PublishRelay<Void> { get }
-    var moveToRegister: PublishRelay<Void> { get }
-    var nicknameChanged: Observable<String>? { get set }
+    var moveFromLogin: Observable<Void> { get }
+    var moveToRegister: Observable<Void> { get }
+    var updatedNickname: Observable<String>? { get set }
 }
 
-final class LoginViewModel: BaseViewModel, LoginViewModelProtocol, Routable {
+final class LoginViewModel: BaseViewModel, Routable {
 
-    // MARK: LoginViewModelProtocol property
-    var loggedIn = PublishRelay<Void>()
-    var moveToRegister = PublishRelay<Void>()
-    var nicknameChanged: Observable<String>?
+    // MARK: Public property
+    var updatedNickname: Observable<String>?
     
     // MARK: Private properties
     private lazy var authService = AuthService()
+    private var loggedInSuccessfull = PublishRelay<Void>()
+    private var registerTapped = PublishRelay<Void>()
     
     // MARK: Setup methods
     override func setup() {
         super.setup()
         
-        nicknameChanged?.subscribe(onNext: { [weak self] in self?.setupView(with: $0) }).disposed(by: disposeBag)
+        updatedNickname?.subscribe(onNext: { [weak self] in self?.setupView(with: $0) }).disposed(by: disposeBag)
     }
     
     override func setupView() {
@@ -42,13 +42,25 @@ final class LoginViewModel: BaseViewModel, LoginViewModelProtocol, Routable {
             self.authService
                 .login(nickname: nickname, password: password)
                 .subscribe(onError: { [weak self] in self?.errorCatcher.accept($0) },
-                           onCompleted: { [weak self] in self?.loggedIn.accept(()) })
+                           onCompleted: { [weak self] in self?.loggedInSuccessfull.accept(()) })
                 .disposed(by: self.disposeBag)
             }).disposed(by: disposeBag)
-        view.registerTapped.bind(to: moveToRegister).disposed(by: disposeBag)
+        view.registerTapped.bind(to: registerTapped).disposed(by: disposeBag)
     }
     
     private func setupView(with nickname: String?) {
         (view as? LoginViewProtocol)?.setup(with: nickname)
     }
+}
+
+// MARK: - LoginViewModelProtocol
+extension LoginViewModel: LoginViewModelProtocol {
+    var moveFromLogin: Observable<Void> {
+        return loggedInSuccessfull.asObservable()
+    }
+    
+    var moveToRegister: Observable<Void> {
+        return registerTapped.asObservable()
+    }
+    
 }
