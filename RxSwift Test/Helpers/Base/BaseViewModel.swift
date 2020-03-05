@@ -13,8 +13,8 @@ import RxRelay
 class BaseViewModel: UIViewController, ErrorSwowing {
     
     // MARK: Internal properties
-    internal let disposeBag = DisposeBag()
-    internal let errorCatcher = PublishRelay<Error>()
+    let disposeBag = DisposeBag()
+    let errorCatcher = PublishRelay<Error>()
     
     // MARK: Life Cycle
     override func viewDidLoad() {
